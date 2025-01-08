@@ -4899,7 +4899,6 @@ dependencies = [
  "prism-common",
  "prism-da",
  "prism-errors",
- "sp1-sdk",
  "sp1-verifier",
  "tokio",
 ]
