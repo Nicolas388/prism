@@ -10,6 +10,7 @@ use node_types::NodeType;
 use prism_lightclient::LightClient;
 use prism_prover::Prover;
 use prism_storage::RedisConnection;
+use sp1_sdk::{HashableKey, ProverClient};
 use std::sync::Arc;
 
 #[macro_use]
@@ -44,7 +45,15 @@ async fn main() -> std::io::Result<()> {
                 },
             );
 
-            Arc::new(LightClient::new(da, celestia_config, prover_vk))
+            let client = ProverClient::mock();
+            let (_, vk) = client.setup(PRISM_ELF);
+
+            Arc::new(LightClient::new(
+                da,
+                celestia_config,
+                prover_vk,
+                vk.bytes32(),
+            ))
         }
         Commands::Prover(args) => {
             let config = load_config(args.clone())
